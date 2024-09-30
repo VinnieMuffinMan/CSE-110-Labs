@@ -76,3 +76,37 @@ div {
 img {
     max-width: 100%;
 }
+
+@media (max-width: 800px) {
+    #navbar a {
+        display: none;
+    }
+
+    #navbar img {
+        max-width: 75%;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    p {
+        font-size: 20px;
+    }
+
+    #S31 {
+        grid-column: 1/2;
+    }
+
+    #S32 {
+        grid-column: 2/3;
+    }
+
+    #S33 {
+        grid-column: 1/2;
+    }
+
+    #S34 {
+        grid-column: 2/3;
+    }
+}
