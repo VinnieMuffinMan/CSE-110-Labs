@@ -10,5 +10,6 @@ export type Note = {
     title: string;
     content: string;
     label: Label;
+    isLiked: boolean;
 };
 

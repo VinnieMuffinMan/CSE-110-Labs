@@ -5,20 +5,19 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Label, Note } from "./types"; // Import the Label type from the appropriate module
 
 
-function ClickLikes(props: Note) {
-  const [isLiked, setIsLiked] = useState(false);
+function ClickLikes({note, handleList} : {note:Note, handleList:() => void}) {
+  // const handleClick = () => {
+  //   note.isLiked = !note.isLiked;
+  //   handleList(note);
+  // };
 
-  const handleClick = () => {
-    setIsLiked(!isLiked);
-  };
-
-  useEffect(() => {
-    document.getElementById(props.id.toString())!.style.display = isLiked ? "" : "none";
-  }, [isLiked]);
+  // useEffect(() => {
+  //   document.getElementById(id.toString())!.style.display = isLiked ? "" : "none";
+  // }, [isLiked]);
 
   return (
     <div>
-      <button onClick={handleClick}>{isLiked ? "♥" : "♡"}</button>
+      <button onClick={handleList}>{note.isLiked ? "♥" : "♡"}</button>
     </div>
   );
 }
@@ -36,8 +35,22 @@ function App() {
     title: "",
     content: "",
     label: Label.personal,
+    isLiked: false,
   };
   const [createNote, setCreateNote] = useState(initialNote);
+
+  const handleList = (id: number) => {
+    setNotes((notes) =>
+      notes.map((note) =>
+        note.id === id ? { ...note, isLiked: !note.isLiked } : note
+      )
+    );
+  };
+  const likedNotes = notes.filter(note => note.isLiked);
+
+  const handleDelete = (id: number) => {
+    setNotes(notes.filter(note => note.id != id));
+  }
 
   const createNoteHandler = (event: React.FormEvent) => {
     event.preventDefault();
@@ -48,8 +61,6 @@ function App() {
     setCreateNote(initialNote);
     (document.getElementById("form") as HTMLFormElement).reset();
   };
-
-
 
   return (
     <ThemeContext.Provider value={currentTheme}>
@@ -81,26 +92,9 @@ function App() {
 
           <div id="liked" style={{ background: currentTheme.background, color: currentTheme.foreground }}>
             <h2>List of Favorites</h2>
-            <p id="1">n1</p>
-            <p id="2">n2</p>
-            <p id="3">n3</p>
-            <p id="4">n4</p>
-            <p id="5">n5</p>
-            <p id="6">n6</p>
-            <p id="7">n7</p>
-            <p id="8">n8</p>
-            <p id="9">n9</p>
-            <p id="10">n10</p>
-            <p id="11">n11</p>
-            <p id="12">n12</p>
-            <p id="13">n13</p>
-            <p id="14">n14</p>
-            <p id="15">n15</p>
-            <p id="16">n16</p>
-            <p id="17">n17</p>
-            <p id="18">n18</p>
-            <p id="19">n19</p>
-            <p id="20">n20</p>
+            {likedNotes.map((note) => (
+            <p>{note.title}</p>
+            ))}
           </div>
         </form>
         <div className="notes-grid" id="notes-grid">
@@ -109,13 +103,14 @@ function App() {
               key={note.id}
               className="note-item"
               style={{ background: currentTheme.background, color: currentTheme.foreground }}>
-              <div className="notes-header">
-                {/* {ClickLikes(note.id)} */}<ClickLikes title={note.title} content={note.content} label={note.label} id={note.id} />
-                <button>x</button>
+              <div className="notes-header"> 
+                {/* {ClickLikes(note, handleList)} */}
+                <ClickLikes note={note} handleList={() => handleList(note.id)}/>
+                <button onClick={() => handleDelete(note.id)}>x</button>
               </div>
-              <h2> {note.title} </h2>
-              <p> {note.content} </p>
-              <p> {note.label} </p>
+              <h2 contentEditable="true"> {note.title} </h2>
+              <p contentEditable="true"> {note.content} </p>
+              <p contentEditable="true"> {note.label} </p>
             </div>
           ))}
         </div>
