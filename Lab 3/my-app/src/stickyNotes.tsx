@@ -59,7 +59,7 @@ export const StickyNotes = () => {
                     <div><input id="title" placeholder="Note Title" style={{ background: currentTheme.background, color: currentTheme.foreground }} onChange={(event) =>
                         setCreateNote({ ...createNote, title: event.target.value })} required></input></div>
 
-                    <div><textarea id="content" style={{ background: currentTheme.background, color: currentTheme.foreground }} onChange={(event) =>
+                    <div><textarea id="content" placeholder="Note Content" style={{ background: currentTheme.background, color: currentTheme.foreground }} onChange={(event) =>
                         setCreateNote({ ...createNote, content: event.target.value })}
                         required></textarea></div>
 
@@ -93,7 +93,7 @@ export const StickyNotes = () => {
                             style={{ background: currentTheme.background, color: currentTheme.foreground }}>
                             <div className="notes-header">
                                 <ClickLikes note={note} handleList={() => handleList(note.id)} />
-                                <button onClick={() => handleDelete(note.id)}>x</button>
+                                <button title={note.id.toString()} onClick={() => handleDelete(note.id)}>x</button>
                             </div>
                             <h2 contentEditable="true"> {note.title} </h2>
                             <p contentEditable="true"> {note.content} </p>
