@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { StickyNotes } from "./stickyNotes";
+import { ToDoList } from "./toDoList";
 
 describe("Create StickyNote", () => {
     test("renders create note form", () => {
@@ -39,4 +40,50 @@ describe("Delete StickyNote", () => {
         fireEvent.click(deleteButton);
         expect(deleteButton).not.toBeInTheDocument();
     })
+    test("delete all notes", () => {
+        render(<StickyNotes />);
+        let deleteButton = screen.getByTitle("1");
+        fireEvent.click(deleteButton);
+        expect(deleteButton).not.toBeInTheDocument();
+        deleteButton = screen.getByTitle("2");
+        fireEvent.click(deleteButton);
+        expect(deleteButton).not.toBeInTheDocument();
+        deleteButton = screen.getByTitle("3");
+        fireEvent.click(deleteButton);
+        expect(deleteButton).not.toBeInTheDocument();
+        deleteButton = screen.getByTitle("4");
+        fireEvent.click(deleteButton);
+        expect(deleteButton).not.toBeInTheDocument();
+        deleteButton = screen.getByTitle("5");
+        fireEvent.click(deleteButton);
+        expect(deleteButton).not.toBeInTheDocument();
+        deleteButton = screen.getByTitle("6");
+        fireEvent.click(deleteButton);
+        expect(deleteButton).not.toBeInTheDocument();
+    })
+})
+
+test("all items displayed", () => {
+    render(<ToDoList />);
+    const apple = screen.getByText("Apples");
+    const banana = screen.getByText("Bananas");
+
+    expect(apple).toBeInTheDocument();
+    expect(banana).toBeInTheDocument();
+})
+
+test("checkbox increment/decrement counter", () => {
+    render(<ToDoList />);
+    const appleCheck = screen.getByTitle("ApplesCheck");
+    const bananaCheck = screen.getByTitle('BananasCheck');
+    const counter = screen.getByText("Items bought: 0");
+
+    fireEvent.click(appleCheck);
+    expect(counter).toHaveTextContent("Items bought: 1");
+    fireEvent.click(bananaCheck);
+
+    fireEvent.click(appleCheck);
+    expect(counter).toHaveTextContent("Items bought: 1");
+    fireEvent.click(bananaCheck);
+    expect(counter).toHaveTextContent("Items bought: 0");
 })

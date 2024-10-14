@@ -33,7 +33,7 @@ export function ToDoList() {
     return (
         <div className="App">
             <div className="App-body">
-            <h1>{name}'s To Do List</h1>
+                <h1>{name}'s To Do List</h1>
                 Items bought: {numRemainingItems}
                 <form action=".">
                     {items.map((item) => ListItem(item, handleCheckboxClick))}
@@ -47,6 +47,7 @@ function ListItem(item: GroceryItem, changeHandler: ChangeEventHandler) {
     return (
         <div>
             <input
+                title={item.name + "Check"}
                 type="checkbox"
                 onChange={changeHandler}
                 checked={item.isPurchased}
