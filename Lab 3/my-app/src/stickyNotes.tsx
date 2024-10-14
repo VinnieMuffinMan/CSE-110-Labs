@@ -95,9 +95,9 @@ export const StickyNotes = () => {
                                 <ClickLikes note={note} handleList={() => handleList(note.id)} />
                                 <button title={note.id.toString()} onClick={() => handleDelete(note.id)}>x</button>
                             </div>
-                            <h2 contentEditable="true"> {note.title} </h2>
-                            <p contentEditable="true"> {note.content} </p>
-                            <p contentEditable="true"> {note.label} </p>
+                            <h2 title={"Title " + note.id.toString()} contentEditable="true"> {note.title} </h2>
+                            <p title={"Content " + note.id.toString()} contentEditable="true"> {note.content} </p>
+                            <p title={"Label " + note.id.toString()} contentEditable="true"> {note.label} </p>
                         </div>
                     ))}
                 </div>

@@ -32,6 +32,21 @@ describe("Create StickyNote", () => {
     });
 });
 
+describe("Update StickyNote", () => {
+    test("update one note", () => {
+        render(<StickyNotes />);
+        const noteTitle = screen.getByTitle("Title 1");
+        noteTitle.textContent = 'New Title';
+        const newNoteTitle = screen.getByText("New Title");
+        expect(newNoteTitle).toBeInTheDocument();
+
+        const noteContent = screen.getByTitle("Content 1");
+        noteContent.textContent = 'New Content';
+        const newNoteContent = screen.getByText("New Content");
+        expect(newNoteContent).toBeInTheDocument();
+    })
+});
+
 describe("Delete StickyNote", () => {
     test("delete one note", () => {
         render(<StickyNotes />);
@@ -39,4 +54,4 @@ describe("Delete StickyNote", () => {
         fireEvent.click(deleteButton);
         expect(deleteButton).not.toBeInTheDocument();
     })
-})
+});
