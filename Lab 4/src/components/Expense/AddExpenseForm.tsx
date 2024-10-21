@@ -1,13 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { AppContext } from "../../context/AppContext";
+import { Expense } from "../../types/types";
 const AddExpenseForm = () => {
   // Exercise: Consume the AppContext here
+  const context = useContext(AppContext);
 
   // Exercise: Create name and cost to state variables
+  const [name, setName] = useState<string>("Name");
+  const [cost, setCost] = useState<number>(0);
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     // Exercise: Add add new expense to expenses context array
+    let expense : Expense = {
+      id: name,
+      name: name,
+      cost: cost
+    }
+    context.setExpenses([expense, ...context.expenses]);
   };
 
   return (
@@ -20,8 +31,8 @@ const AddExpenseForm = () => {
             type="text"
             className="form-control"
             id="name"
-            value={""}
-            // HINT: onChange={}
+            placeholder="Expense"
+            onChange={(event) => setName(event.target.value)}
           ></input>
         </div>
         <div className="col-sm">
@@ -31,8 +42,8 @@ const AddExpenseForm = () => {
             type="text"
             className="form-control"
             id="cost"
-            value={0}
-            // HINT: onChange={}
+            placeholder="0"
+            onChange={(event) => setCost(Number(event.target.value))}
           ></input>
         </div>
         <div className="col-sm">
