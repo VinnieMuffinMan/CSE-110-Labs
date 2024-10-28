@@ -14,4 +14,4 @@ jobs: # the things being executed
      - name: Install Dependencies
        run: cd 'Lab 4' && npm install
      - name: Unit Test
-       run: npm test # the actual testing line
+       run: cd 'Lab 4' && npm test # the actual testing line
