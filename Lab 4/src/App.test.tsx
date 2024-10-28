@@ -18,7 +18,7 @@ test('create expense', () => {
   const newExpenseName = screen.getByText("Gambling");
   const newExpenseCost = screen.getByText("$562");
 
-  expect(newExpenseName).toBeInTheDocument();
+  expect(newExpenseName).not.toBeInTheDocument();
   expect(newExpenseCost).toBeInTheDocument();
 
   const remaining = screen.getByText("Remaining: $438");
