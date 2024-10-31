@@ -21,7 +21,7 @@ export const AppContext = createContext<AppContextType>(initialState);
 
 export const AppProvider = (props: any) => {
   const [expenses, setExpenses] = useState<Expense[]>(initialState.expenses);
-  const [budget, setBudget] = useState<number>(1000);
+  const [budget, setBudget] = useState<number>(initialState.budget);
 
   return (
     <AppContext.Provider
