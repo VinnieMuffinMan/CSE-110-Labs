@@ -1,33 +1,43 @@
+import { Database } from "sqlite";
 import { Expense } from "../types";
 import { Request, Response } from "express";
 
-export function createExpenseServer(req: Request, res: Response, expenses: Expense[]) {
-    const { id, cost, description } = req.body;
+export async function createExpenseServer(req: Request, res: Response, db: Database) {
+  try {
+    // Type casting the request body to the expected format.
+    const { id, cost, description } = req.body as { id: string, cost: number, description: string };
 
     if (!description || !id || !cost) {
-        return res.status(400).send({ error: "Missing required fields" });
+      return res.status(400).send({ error: "Missing required fields" });
     }
 
-    const newExpense: Expense = {
-        id: id,
-        description,
-        cost,
-    };
+    await db.run('INSERT INTO expenses (id, description, cost) VALUES (?, ?, ?);', [id, description, cost]);
+    res.status(201).send({ id, description, cost });
 
-    expenses.push(newExpense);
-    res.status(201).send(newExpense);
+  } catch (error) {
+
+    return res.status(400).send({ error: `Expense could not be created, + ${error}` });
+  };
 }
 
-export function deleteExpenseServer(req: Request, res: Response, expenses: Expense[]) {
-    // TO DO: Implement deleteExpense function
+export async function deleteExpenseServer(req: Request, res: Response, db: Database) {
+  // TODO: Implement deleteExpense function
+  try {
     const id = req.params.id;
 
-    const index = expenses.findIndex((expense) => expense.id === id);
+    await db.run('DELETE FROM expenses WHERE id=?;', [id]);
 
-    expenses.splice(index, 1);
-    res.status(200).send({ message: 'Item deleted successfully' });
+    res.status(204).send({ message: 'Item deleted successfully' });
+  } catch (error) {
+    return res.status(400).send({ error: `Expense could not be deleted, + ${error}` });
+  }
 }
 
-export function getExpenses(req: Request, res: Response, expenses: Expense[]) {
-    res.status(200).send({ "data": expenses });
+export async function getExpenses(req: Request, res: Response, db: Database) {
+  try {
+    const e: Expense[] = await db.all('SELECT * FROM expenses;');
+    res.status(200).send({"data": e});
+  } catch (error) {
+    return res.status(400).send({ error: `Expense could get expenses, + ${error}` });
+  }
 }
